@@ -25,6 +25,8 @@ Edit conf file.
 </match>
 ```
 
+Don't forget to set *path* as /path/to/log/dir/**BUFFER** and add write permission for *dir* directory to the user of fluent process.
+
 Fluent with such conf file behaves as follows:
 
 1. Look for all events whose tag starts with `prefix.`
