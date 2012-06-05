@@ -2,17 +2,10 @@ module Fluent
   class TagFileOutput < FileOutput
     Plugin.register_output('tag_file', self)
 
-    # @timef is assigned in FileOutput.configure method.
-    #
-    # ==== Args
-    # tag :: "PREFIX.path.to.dir"
-    def format(tag, time, record)
-      time_str = @timef.format(time)
-      "#{time_str}\t#{tag}\t#{record.to_json}\n"
-    end
-
     def write(chunk)
       data = chunk.read
+
+      # tag :: "PREFIX.path.to.dir"
       time_str, tag, record = data.split("\t")
 
       elems = tag.split('.')
