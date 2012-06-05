@@ -35,10 +35,10 @@ module Fluent
 
       i = 0
       begin
-        path = "#{dir}/#{i}#{@path_suffix}#{suffix}"
+        path = File.join(dir, "#{i}#{@path_suffix}#{suffix}")
         i += 1
       end while File.exist?(path)
-      FileUtils.mkdir_p File.dirname(path)
+      FileUtils.mkdir_p dir
 
       case @compress
       when nil
@@ -49,5 +49,5 @@ module Fluent
 
       return path  # for test
     end
-  end 
+  end
 end
