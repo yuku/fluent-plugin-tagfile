@@ -2,7 +2,7 @@
 
 This is similar to the `file` build-in output plugin, but `tag_file` decides output directory using tag of events.
 
-##How to use
+##Installation
 
 Puts out_tag_file.rb to plugin directory.
 
@@ -10,30 +10,27 @@ Puts out_tag_file.rb to plugin directory.
 % cp out_tag_file.rb path/to/fluent/plugin
 ```
 
-Edit conf file.
-
-```shell
-% edit path/to/fluent/fluent.conf
-```
+##Configure
 
 ```conf
+#/etc/fluent/fluent.conf
 <match prefix.**>
   type tag_file
-  path /path/to/log/dir/buffer
-  time_format %Y/%m/%d/%H
-  time_slice_format %Y%m%d%H%M  # see FileSliceOutput class
+
+  path /var/log/fluent
   compress gzip
+
+  time_slice_format %Y/%m/%d/%H/%M
+  flush_interval 60s
 </match>
 ```
 
-Don't forget to set `path` as /path/to/log/dir/**BUFFER** and add write permission for */path/to/log/dir* directory to the user of fluent process.
+Fluent with such conf file behaves as follows. Suppose that source tag is `prefix.foo.bar` and time is `2012/02/01 18:46`.
 
-Fluent with such conf file behaves as follows. Suppose that the tag is `prefix.hoge.homu` and time is 2012/02/01 18:46.
+1. Look for all events whose tag starts with `prefix.`.
 
-1. Look for all events whose tag starts with `prefix.`
+2. Create buffer file `/var/log/fluent/buffer.xxxxx`.
 
-2. Keep the event in the buffer file named /path/to/log/dir/buffer.*****
+3. In every minutes, fluent tries to flush the buffer, then `/var/log/fluent/foo/bar/2012/02/01/18/46/N.log.gz` is created. N is a unique number in the directory.
 
-3. When the buffer is full, these data are written in /path/to/log/dir/hoge/homu/2012/02/01/18/0.log.gzip
-
-Fluent will flush bufferd data in every `time_slice_format` defaults to `%Y%m%d`. In this case, data are flushed in every minute.
+If `time_slice_format` includes `/` like this example, it means the directory hierarchy.
