@@ -4,10 +4,8 @@ This is similar to the `file` build-in output plugin, but `tag_file` decides out
 
 ##Installation
 
-Puts `out_tag_file.rb` to plugin directory.
-
 ```shell
-% cp out_tag_file.rb path/to/fluent/plugin
+% gem install fluent-plugin-tagfile
 ```
 
 ##Example
@@ -34,7 +32,7 @@ Suppose that tag is `prefix.foo.bar` and time is `2012/02/01 18:46`.
 
 3. In every minutes, fluent tries to flush the buffer, then `/var/log/fluent/foo/bar/2012/02/01/18/46/N.log.gz` is created. N is a unique number in the directory.
 
-If `time_slice_format` includes `/` like this example, it means the directory hierarchy.
+If `time_slice_format` includes `/` like this example, it is used as the directory hierarchy.
 
 ##See also
 
