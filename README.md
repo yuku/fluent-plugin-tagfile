@@ -19,7 +19,7 @@ This is similar to the `file` build-in output plugin, but `tag_file` decides out
   compress gzip
 
   time_slice_format %Y/%m/%d/%H/%M
-  flush_interval 60s
+  flush_interval 10m
 </match>
 ```
 
